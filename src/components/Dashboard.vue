@@ -2,6 +2,8 @@
   <v-container fluid>
     <v-row class="">
       <v-col class="content">
+        
+	<div class="loading">Loading&#8230;</div>
         <v-row>
           <v-col class="md-6 dashboard">
             <h6 class="greeting">
@@ -20,15 +22,15 @@
 
             <p class="find-user-text">show users</p>
 
-            <v-btn class="mx-2 btn-icon" dark large color="#F935A9">
+            <v-btn v-on:click="getUsers" class="mx-2 btn-icon" dark large color="#F935A9">
               <v-icon large dark> mdi-account-group </v-icon>
             </v-btn>
 
-            <v-btn class="mx-2 btn-icon" dark large color="#30BBB5">
+            <v-btn v-on:click="getMales"  class="mx-2 btn-icon" dark large color="#30BBB5">
               <v-icon large dark> mdi-human-male</v-icon>
             </v-btn>
 
-            <v-btn class="mx-2 btn-icon" dark large color="#7946C1">
+            <v-btn v-on:click="getFemales"  class="mx-2 btn-icon" dark large color="#7946C1">
               <v-icon large dark> mdi-human-female </v-icon>
             </v-btn>
           </v-col>
@@ -61,7 +63,31 @@
               </v-col>
             </v-row>
 
-            <Users/>
+
+<Users v-bind:users="users" v-on:userList="createUserList"  v-if="showUsers"/>
+<UserList v-bind:user="user" v-if="showUser" />
+    <v-row class="mt-4">
+      <v-col class="md-6 sm-6">
+        <v-btn class="download-btn" elevation="2" rounded color="#7946C1" dark>
+          <v-icon> mdi-cloud-download </v-icon>
+          <span class="btn-download-text"> download results </span>
+        </v-btn>
+      </v-col>
+      <v-col class="pagination md-6 sm-6">
+        
+          
+        <v-btn v-on:click="prevPage" class="pagination-btn">
+            <v-icon small color="white" light> mdi-arrow-left </v-icon>
+            </v-btn>
+    
+        
+
+        <v-btn v-on:click="nextPage" class="pagination-btn pagination-btn-right">
+            <v-icon small color="white" light> mdi-arrow-right </v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+
           </v-col>
         </v-row>
       </v-col>
@@ -70,16 +96,102 @@
 </template>
 
 <script>
-import Users from "./Users";
+import UserList from './UserList';
+import axios from 'axios';
+import Users from './Users';
 
 export default {
   name: "Dashboard",
-
-  data: () => ({}),
-
-  components: {
-    Users, 
+  data() {
+return{
+  users:[],
+  user:[],
+  showUsers:true,
+  showUser:false,
+  page:1,
+  results:10,
+  seed:'abc',
+  gender:''
+}
   },
+  components:{
+    Users,
+    UserList,
+  },
+
+      mounted(){
+        axios.get(`https://randomuser.me/api/?page=${this.page}&results=${this.results}&seed=${this.seed}`)
+            .then(function( response ){
+              document.querySelector('.loading').remove();
+                this.users = response.data.results;
+                this.showUsers=true;
+                this.showUser = false;
+                console.log(this.users)
+            }.bind(this))
+    },
+methods: {
+  getUsers: function(){
+ axios.get(`https://randomuser.me/api/?page=${this.page}&results=${this.results}&seed=${this.seed}&gender=${this.gender}`)
+            .then(function( response ){
+                this.users = response.data.results;
+                this.showUsers=true;
+                this.showUser = false;
+                console.log(this.users)
+            }.bind(this))
+  },
+    getMales: function(){
+      this.seed = ''
+      this.gender = 'male'
+ axios.get(`https://randomuser.me/api/?page=${this.page}&results=${this.results}&seed=${this.seed}&gender=${this.gender}`)
+            .then(function( response ){
+                this.users = response.data.results;
+                this.showUsers=true;
+                this.showUser = false;
+                console.log(this.users)
+            }.bind(this))
+  },
+    getFemales: function(){
+      
+      this.seed = ''
+      this.gender = 'female'
+ axios.get(`https://randomuser.me/api/?page=${this.page}&results=${this.results}&seed=${this.seed}&gender=${this.gender}`)
+            .then(function( response ){
+                this.users = response.data.results;
+                this.showUsers=true;
+                this.showUser = false;
+                console.log(this.users)
+            }.bind(this));
+  },
+createUserList: function(index) {
+this.user = this.users[index];
+this.showUser=true;
+this.showUsers = false;
+},
+
+nextPage: function(){
+  this.page = this.page + 1
+ axios.get(`https://randomuser.me/api/?page=${this.page}&results=${this.results}&seed=${this.seed}&gender=${this.gender}`)
+            .then(function( response ){
+                this.users = response.data.results;
+                this.showUsers=true;
+                this.showUser = false;
+                console.log(this.users)
+            }.bind(this))
+  },
+
+prevPage: function(){
+  if(this.page > 0)
+  this.page = this.page - 1
+ axios.get(`https://randomuser.me/api/?page=${this.page}&results=${this.results}&seed=${this.seed}&gender=${this.gender}`)
+            .then(function( response ){
+                this.users = response.data.results;
+                this.showUsers=true;
+                this.showUser = false;
+                console.log(this.users)
+            }.bind(this))
+  }
+},
+
 };
 </script>
 
@@ -170,5 +282,167 @@ export default {
 }
 .dashboard {
   margin: 120px 60px 120px 60px;
+}
+
+.download-btn {
+  box-shadow: 0px 3px 6px #00000029;
+  opacity: 1;
+}
+
+.btn-download-text {
+  margin-left: 10px;
+  text-align: left;
+  font: normal normal 600 17px Poppins;
+  letter-spacing: -0.19px;
+  text-transform: lowercase;
+  opacity: 1;
+}
+.pagination {
+  text-align: right !important;
+}
+.pagination-btn {
+  width: 51px;
+  height: 48px;
+  background: #e2e2ea 0% 0% no-repeat padding-box !important;
+  border-radius: 11px;
+  opacity: 1;
+}
+.pagination-btn:active {
+  width: 51px;
+  height: 48px;
+  background: #262a41 0% 0% no-repeat padding-box !important;
+  box-shadow: 4px 5px 20px #0000001a;
+  border-radius: 11px;
+  opacity: 1;
+}
+
+.pagination-btn-right {
+  width: 51px;
+  height: 48px;
+  background: #262a41 0% 0% no-repeat padding-box !important;
+  box-shadow: 4px 5px 20px #0000001a;
+  border-radius: 11px;
+  opacity: 1;
+}
+
+
+		/* Absolute Center Spinner */
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 1500ms infinite linear;
+  -moz-animation: spinner 1500ms infinite linear;
+  -ms-animation: spinner 1500ms infinite linear;
+  -o-animation: spinner 1500ms infinite linear;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 </style>
