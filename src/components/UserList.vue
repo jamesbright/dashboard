@@ -3,8 +3,9 @@
 <template>
   <v-main>
 
- <div @click="$router.back(-1)" class="back-btn">
-      <v-icon color="#30BBB5"> mdi-arrow-left </v-icon> results
+ <div  class="back-btn">
+      <v-icon @click="goBack" color="#30BBB5"> mdi-arrow-left </v-icon> results
+
     </div>
 
     <v-list-item class="">
@@ -56,7 +57,13 @@ export default {
   name: "UserList",
   props:['user'],
   data: () => ({}),
-
+methods:{
+  goBack: function(){
+this.$store.commit('userList', false)
+this.$store.commit('users', true)
+this.$store.commit('disabled', false)
+  }
+}
 };
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <v-main>
-    <v-card v-for="(user,index) in users" :key="index"  class="user-row mt-4">
+
+     <v-card   v-for="(user,index) in users" :key="index"  class="user-row mt-4 ">
       <v-card-actions>
         <v-list-item class="">
           <v-list-item-avatar class="card-img" color="">
@@ -8,9 +9,9 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title class="user-n">{{ user.name.first}} {{ user.name.last}}</v-list-item-title>
+            <v-list-item-title class="user-n">{{ user.name.first}} {{ user.name.last}}<span v-show="showCountry" >, {{ user.nat }} </span></v-list-item-title>
             <div class="user-address">
-              {{ user.location.street.number }} {{ user.location.street.name }} {{ user.location.city }}, {{ user.location.state }}
+              {{ user.location.street.number }} {{ user.location.street.name }} {{ user.location.city }}, {{ user.location.state }}<span v-show="showCountry"></span>
             </div>
             <v-row>
               <v-col class="md-4 sm-4 user-email">
@@ -36,13 +37,14 @@
     </v-card>
 
   </v-main>
+  
 </template>
 
 
 <script>
 export default {
   name: "Users",
-  props: ["users"],
+  props: ["users","showCountry"],
   data() {
     return{
 
