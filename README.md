@@ -1,5 +1,12 @@
 # dashboard
 ## created with vue and vuetify
+## other packages used
+```
+axios
+animate.css
+```
+## project web url
+[https://dashboard-3470d7.netlify.app](https://dashboard-3470d7.netlify.app)
 
 ## Project setup
 ```
