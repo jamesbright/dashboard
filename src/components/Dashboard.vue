@@ -89,21 +89,19 @@
               </v-col>
             </v-row>
             <transition
-             v-if="users.length > 0"
+              v-if="users.length > 0"
               enter-active-class="animate__animated animate__bounceInUp"
               leave-active-class="animate__animated animate__bounceOutDown"
             >
-           
               <Users
                 v-bind:users="users"
                 v-bind:showCountry="showCountry"
                 v-on:userList="createUserList"
                 v-if="$store.getters.showUsers && users.length > 0"
               />
-            
             </transition>
-            
-              <div v-else>No user found</div>
+
+            <div v-else>No user found</div>
 
             <UserList v-bind:user="user" v-if="$store.getters.showUser" />
 
@@ -182,7 +180,7 @@ export default {
         "US",
       ],
       page: 1,
-      results: 10,
+      results: 5,
       seed: "xyz",
       gender: "",
       showCountry: false,
@@ -209,7 +207,7 @@ export default {
           function (response) {
             document.querySelector(".loading").remove();
             this.title = "All Users";
-             this.users = response.data.results;
+            this.users = response.data.results;
             this.$store.commit("users", true);
             this.$store.commit("userList", false);
           }.bind(this)
@@ -224,6 +222,7 @@ export default {
         )
         .then(
           function (response) {
+            this.title = "All Users";
             this.users = response.data.results;
 
             this.$store.commit("users", true);
@@ -232,7 +231,6 @@ export default {
         );
     },
     getMales: function () {
-      this.title = "Males";
       this.seed = "";
       this.gender = "male";
       axios
@@ -241,6 +239,7 @@ export default {
         )
         .then(
           function (response) {
+            this.title = "Males";
             this.users = response.data.results;
 
             this.$store.commit("users", true);
@@ -249,7 +248,6 @@ export default {
         );
     },
     getFemales: function () {
-      this.title = "Females";
       this.seed = "";
       this.gender = "female";
       axios
@@ -258,6 +256,7 @@ export default {
         )
         .then(
           function (response) {
+            this.title = "Females";
             this.users = response.data.results;
 
             this.$store.commit("users", true);
@@ -287,7 +286,6 @@ export default {
       this.$store.commit("users", false);
       this.$store.commit("userList", true);
       this.$store.commit("disabled", true);
-    
     },
 
     nextPage: function () {
@@ -346,20 +344,16 @@ export default {
     search: function () {
       if (!this.awaitingSearch) {
         setTimeout(() => {
-          axios
-            .get(
-              `https://randomuser.me/api/?seed=${this.seed}`
-            )
-            .then(
-              function (response) {
-                this.users = response.data.results.filter((obj) => {
-                  let name = `${obj.name.first} ${obj.name.last}`;
-                  this.$store.commit("users", true);
-                  this.$store.commit("userList", false);
-                  return name.includes(this.search);
-                });
-              }.bind(this)
-            );
+          axios.get(`https://randomuser.me/api/?seed=${this.seed}`).then(
+            function (response) {
+              this.users = response.data.results.filter((obj) => {
+                let name = `${obj.name.first} ${obj.name.last}`;
+                this.$store.commit("users", true);
+                this.$store.commit("userList", false);
+                return name.includes(this.search);
+              });
+            }.bind(this)
+          );
           this.awaitingSearch = false;
         }, 3000); // 3 sec delay
       }
