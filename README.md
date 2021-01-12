@@ -6,9 +6,8 @@ axios
 animate.css
 ```
 ## project web url
-```
-https://dashboard-3470d7.netlify.app
-```
+[https://dashboard-3470d7.netlify.app](https://dashboard-3470d7.netlify.app)
+
 ## Project setup
 ```
 yarn install
