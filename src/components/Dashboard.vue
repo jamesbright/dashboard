@@ -208,13 +208,13 @@ export default {
             document.querySelector(".loading").remove();
             this.title = "All Users";
             this.users = response.data.results;
-            this.$store.commit("users", true);
-            this.$store.commit("userList", false);
+            this.commitUsers();
           }.bind(this)
         );
     }
   },
   methods: {
+
     getUsers: function () {
       axios
         .get(
@@ -224,9 +224,7 @@ export default {
           function (response) {
             this.title = "All Users";
             this.users = response.data.results;
-
-            this.$store.commit("users", true);
-            this.$store.commit("userList", false);
+            this.commitUsers();
           }.bind(this)
         );
     },
@@ -241,9 +239,7 @@ export default {
           function (response) {
             this.title = "Males";
             this.users = response.data.results;
-
-            this.$store.commit("users", true);
-            this.$store.commit("userList", false);
+            this.commitUsers();
           }.bind(this)
         );
     },
@@ -258,13 +254,19 @@ export default {
           function (response) {
             this.title = "Females";
             this.users = response.data.results;
-
-            this.$store.commit("users", true);
-            this.$store.commit("userList", false);
+             this.commitUsers();
           }.bind(this)
         );
     },
+commitUsers: function(){
+            this.$store.commit("users", true);
+            this.$store.commit("userList", false);
+},
+commitUserList: function(){
 
+      this.$store.commit("users", false);
+      this.$store.commit("userList", true);
+},
     findCountry: function () {
       this.seed = "";
       axios
@@ -274,17 +276,14 @@ export default {
         .then(
           function (response) {
             this.users = response.data.results;
-
-            this.$store.commit("users", true);
-            this.$store.commit("userList", false);
+            this.commitUsers();
           }.bind(this)
         );
     },
 
     createUserList: function (index) {
       this.user = this.users[index];
-      this.$store.commit("users", false);
-      this.$store.commit("userList", true);
+      this.commitUserList();
       this.$store.commit("disabled", true);
     },
 
@@ -325,11 +324,10 @@ export default {
           `https://randomuser.me/api/?page=${this.page}&results=${this.results}&seed=${this.seed}&gender=${this.gender}&format=csv&dl`
         )
         .then(
-          function (response) {
-            console.log(response.data);
+function (response) {
             let csvContent = "data:text/csv;charset=utf-8," + response.data;
-            var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a");
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
             link.setAttribute("href", encodedUri);
             link.setAttribute("download", "results.csv");
             document.body.appendChild(link); // Required for FF
@@ -348,8 +346,7 @@ export default {
             function (response) {
               this.users = response.data.results.filter((obj) => {
                 let name = `${obj.name.first} ${obj.name.last}`;
-                this.$store.commit("users", true);
-                this.$store.commit("userList", false);
+                 this.commitUsers();
                 return name.includes(this.search);
               });
             }.bind(this)
@@ -367,8 +364,7 @@ export default {
           this.users = this.users.filter(
             function (obj) {
               let name = `${obj.name.first} ${obj.name.last}`;
-              this.$store.commit("users", true);
-              this.$store.commit("userList", false);
+               this.commitUsers();
               return name.includes(this.searchList);
             }.bind(this)
           );

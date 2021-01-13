@@ -1,6 +1,5 @@
 <template>
-  <v-main>
-
+ <div>
      <v-card   v-for="(user,index) in users" :key="index"  class="user-row mt-4 ">
       <v-card-actions>
         <v-list-item class="">
@@ -36,7 +35,7 @@
       </v-card-actions>
     </v-card>
 
-  </v-main>
+  </div>
   
 </template>
 
