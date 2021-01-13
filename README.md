@@ -9,6 +9,7 @@ animate.css
 [https://dashboard-3470d7.netlify.app](https://dashboard-3470d7.netlify.app)
 
 ![CI](https://github.com/jamesbright/dashboard/workflows/CI/badge.svg)
+[![Build Status](https://travis-ci.com/jamesbright/dashboard.svg?token=wWWsAPn5re6xUhkk7vzz&branch=master)](https://travis-ci.com/jamesbright/dashboard)
 
 ## Project setup
 ```
