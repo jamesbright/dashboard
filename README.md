@@ -8,8 +8,6 @@ animate.css
 ## project web url
 [https://dashboard-3470d7.netlify.app](https://dashboard-3470d7.netlify.app)
 
-## CI
-[![CI Actions Status](https://github.com/{jamesbright}/{dashboard}/workflows/{CI}/badge.svg)](https://github.com/{jamesbright}/{dashboard}/actions)
 
 ## Project setup
 ```
