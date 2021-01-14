@@ -208,6 +208,7 @@ export default {
             document.querySelector(".loading").remove();
             this.title = "All Users";
             this.users = response.data.results;
+            console.log(this.users);
             this.commitUsers();
           }.bind(this)
         );
