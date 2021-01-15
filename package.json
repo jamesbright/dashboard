@@ -5,7 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+<<<<<<< HEAD
     "test:unit": "jest --no-cache --watch",
+=======
+    "test": "jest",
+>>>>>>> a36da73038ea2a8cd5ec4b09549a70a5d8421040
     "lint": "vue-cli-service lint"
   },
   "jest": {
