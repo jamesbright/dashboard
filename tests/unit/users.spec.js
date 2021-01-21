@@ -130,12 +130,7 @@ describe('Users.vue', () => {
             expect(wrapper.text()).toContain(users[1].name.first) 
     })
 
-    // checks Users is a component.
-    it('Users is a component', () => {
 
-        const wrapper = shallowMount(Users)
-        expect(wrapper.isVueInstance()).toBeTruthy()
-    })
        
    
 })

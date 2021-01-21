@@ -57,7 +57,7 @@
             <h4 class="users-heading mb-4">{{ title }}</h4>
             <span class="filter-search-text">Filter by</span>
             <v-row>
-              <v-col class="md-4 sm-4">
+              <v-col class="md-4 sm-4 searchList">
                 <v-text-field
                   v-model="searchList"
                   placeholder="Find in list"
@@ -88,20 +88,14 @@
                 ></v-switch>
               </v-col>
             </v-row>
-            <transition
-              v-if="users.length > 0"
-              enter-active-class="animate__animated animate__bounceInUp"
-              leave-active-class="animate__animated animate__bounceOutDown"
-            >
+       
               <Users
                 v-bind:users="users"
                 v-bind:showCountry="showCountry"
                 v-on:userList="createUserList"
                 v-if="$store.getters.showUsers && users.length > 0"
               />
-            </transition>
-
-            <div v-else>No user found</div>
+          
 
             <UserList v-bind:user="user" v-if="$store.getters.showUser" />
 
@@ -238,7 +232,7 @@ export default {
         )
         .then(
           function (response) {
-            this.title = "Males";
+            this.title = "Male Users";
             this.users = response.data.results;
             this.commitUsers();
           }.bind(this)
@@ -253,7 +247,7 @@ export default {
         )
         .then(
           function (response) {
-            this.title = "Females";
+            this.title = "Female Users";
             this.users = response.data.results;
              this.commitUsers();
           }.bind(this)
@@ -450,7 +444,7 @@ function (response) {
   margin: 20px 10px 20px 10px;
   top: 0px;
   left: 0px;
-  padding: 30px;
+ 
 
   height: 100%;
   background: #262a41 0% 0% no-repeat padding-box;
@@ -580,54 +574,6 @@ function (response) {
 
 /* Animation */
 
-@-webkit-keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-moz-keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-o-keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
 @keyframes spinner {
   0% {
     -webkit-transform: rotate(0deg);

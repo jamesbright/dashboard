@@ -1,54 +1,58 @@
 
 
 <template>
-  <v-main>
 
- <div  class="back-btn">
+
+      <v-container fluid>
+        
+ <v-list-item  class="back-btn">
       <v-icon @click="goBack" color="#30BBB5"> mdi-arrow-left </v-icon> results
 
-    </div>
-
-    <v-list-item class="">
-      <v-list-item-avatar class="card-img" color="">
+        </v-list-item>
+        <v-row>
+          <v-col class="md-6 sm-6" >
+        <v-list-item-avatar class="card-img" >
         <v-img :src="user.picture.large">
         </v-img>
-      </v-list-item-avatar>
-
+        </v-list-item-avatar>
+    
+          </v-col>
+          <v-col class="md-6 sm-6">
       <v-list-item-content>
         <v-list-item-title class="user-n">{{ user.name.first }} {{ user.name.last }} <span class="age">{{ user.registered.age }}</span></v-list-item-title>
-        <div class="user-address">
+        <v-list-item class="user-address">
          {{ user.location.street.number }} {{ user.location.street.name }} {{ user.location.city }}, {{ user.location.state }}
           
-        </div>
+        </v-list-item>
 
-        <div class="user-email mt-2 ">
+        <v-list-item class="user-email mt-2 ">
           <v-btn filled rounded dense class="contact-btn" >
             <v-icon small> mdi-email-outline </v-icon>
            {{ user.email }}
           </v-btn>
-        </div>
+        </v-list-item>
 
-           <div class="user-joined-date mt-2 mb-4">
+           <v-list-item class="user-joined-date mt-2 mb-4">
           <v-btn filled rounded dense class="joined-btn">
            <span class="joined-date">joined {{ user.registered.date }}</span>
           </v-btn>
-        </div>
+           </v-list-item>
 
-        <div class="user-phone">
+        <v-list-item class="user-phone">
           <v-icon small> mdi-phone-in-talk-outline </v-icon>
           {{ user.phone }}
-        </div>
+           </v-list-item>
         
-        <div class="user-phone">
+        <v-list-item class="user-phone">
           <v-icon small> mdi-cellphone-iphone </v-icon>
           {{ user.phone }}
-        </div>
-
+           </v-list-item>
       </v-list-item-content>
-    </v-list-item>
+          </v-col>
+        </v-row>
+      </v-container>
  
        
-  </v-main>
 </template>
 
 
@@ -76,6 +80,7 @@ this.$store.commit('disabled', false)
   width: 200px !important;
   height: 200px !important;
   border: 8px solid #75d6d1 !important;
+  
   opacity: 1;
 }
 
@@ -108,9 +113,12 @@ text-align: left;
 font: normal normal medium 18px/68px Poppins;
 letter-spacing: -0.02px;
 color: #262A41;
-
+overflow-x: scroll;
 }
 
+::-webkit-scrollbar {
+display: none;
+}
 .user-phone {
   text-align: left;
   font: normal normal 12px Poppins;

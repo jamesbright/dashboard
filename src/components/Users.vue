@@ -1,17 +1,20 @@
 <template>
- <div>
-     <v-card   v-for="(user,index) in users" :key="index"  class="user-row mt-4 ">
-      <v-card-actions>
+
+ <transition-group v-if="users.length > 0" mode="out-in" enter-active-class="animate__animated animate__bounceInUp" leave-active-class="animate__animated animate__bounceOutDown">
+     <v-card  v-for="(user,index) in users" :key="index"  class="user-row mt-4 ">
+      
         <v-list-item class="">
           <v-list-item-avatar class="card-img" color="">
             <v-img :src="user.picture.medium"> </v-img>
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title class="user-n">{{ user.name.first}} {{ user.name.last}}<span v-show="showCountry" >, {{ user.nat }} </span></v-list-item-title>
-            <div class="user-address">
+            <v-list-item-title class="user-n">{{ user.name.first}} {{ user.name.last}}
+               <v-list-item-action-text v-show="showCountry" > <v-icon  small>. mdi-flag  </v-icon>{{ user.nat }}</v-list-item-action-text>
+                 </v-list-item-title>
+            <v-list-item class="user-address">
               {{ user.location.street.number }} {{ user.location.street.name }} {{ user.location.city }}, {{ user.location.state }}<span v-show="showCountry"></span>
-            </div>
+            </v-list-item>
             <v-row>
               <v-col class="md-4 sm-4 user-email">
                 <v-icon small> mdi-email-outline </v-icon>
@@ -24,7 +27,7 @@
               </v-col>
 
               <v-col class="md-4 sm-4 show-user">
-                  <v-btn v-on:click="passUser(index)" class="show-user-btn" elevation="2" color="#30BBB5">
+                  <v-btn v-on:click="passUser(index)" class="show-user-btn" elevation="3" color="#30BBB5">
                     <v-icon small color="white" light> mdi-arrow-right </v-icon>
                   </v-btn>
               
@@ -32,11 +35,13 @@
             </v-row>
           </v-list-item-content>
         </v-list-item>
-      </v-card-actions>
+   
     </v-card>
 
-  </div>
-  
+
+ </transition-group>
+
+            <div v-else>No user found</div>
 </template>
 
 
@@ -75,7 +80,7 @@ this.$emit('userList', index)
 }
 
 .user-n {
-  font: normal normal bold 22px/79px Poppins;
+  font: normal normal bold 22px/79px Poppins !important;
   letter-spacing: -0.02px;
   color: #262a41;
   opacity: 1;
@@ -109,6 +114,6 @@ this.$emit('userList', index)
  
   border-radius: 13px !important;
   opacity: 1;
-  box-shadow: 1px 1px 1px #30bbb574;
+  box-shadow:  1px 1px 1px 0px #3c8a8674 !important;
 }
 </style>
