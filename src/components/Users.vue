@@ -10,10 +10,12 @@
 
           <v-list-item-content>
             <v-list-item-title class="user-n">{{ user.name.first}} {{ user.name.last}}
-               <v-list-item-action-text v-show="showCountry" > <v-icon  small>. mdi-flag  </v-icon>{{ user.nat }}</v-list-item-action-text>
-                 </v-list-item-title>
+                  </v-list-item-title>
             <v-list-item class="user-address">
-              {{ user.location.street.number }} {{ user.location.street.name }} {{ user.location.city }}, {{ user.location.state }}<span v-show="showCountry"></span>
+              {{ user.location.street.number }} {{ user.location.street.name }} {{ user.location.city }}, {{ user.location.state }}
+    
+                     <v-chip v-show="showCountry" > <v-icon  small>. mdi-flag  </v-icon>{{ user.nat }}</v-chip>
+            
             </v-list-item>
             <v-row>
               <v-col class="md-4 sm-4 user-email">

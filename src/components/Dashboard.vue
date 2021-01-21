@@ -116,11 +116,7 @@
               </v-col>
               <v-col class="pagination md-6 sm-6">
                 <v-btn
-                  :style="[
-                    isActive
-                      ? { background: '#262a41' }
-                      : { background: '#2e2ea' },
-                  ]"
+                
                   :disabled="$store.getters.disabled"
                   v-on:click="prevPage"
                   class="pagination-btn"
@@ -182,7 +178,6 @@ export default {
       search: "",
       awaitingSearch: false,
       searchList: "",
-      isActive: false,
       title: "All Users",
     };
   },
@@ -200,10 +195,7 @@ export default {
         .then(
           function (response) {
             document.querySelector(".loading").remove();
-            this.title = "All Users";
             this.users = response.data.results;
-            console.log(this.users);
-            this.commitUsers();
           }.bind(this)
         );
     }
@@ -298,7 +290,6 @@ commitUserList: function(){
     prevPage: function () {
       if (this.page > 0) {
         this.page = this.page - 1;
-        this.isActive = true;
 
         axios
           .get(
@@ -309,10 +300,17 @@ commitUserList: function(){
               this.users = response.data.results;
             }.bind(this)
           );
-      } else {
-        this.isActive = false;
-      }
+      } 
     },
+
+   toTitleCase: function (str) {
+  return str.replace(
+    /\w\S*/g,
+    function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+  );
+},
     downloadResults: function () {
       axios
         .get(
@@ -339,6 +337,7 @@ function (response) {
         setTimeout(() => {
           axios.get(`https://randomuser.me/api/?seed=${this.seed}`).then(
             function (response) {
+              this.search = this.toTitleCase(this.search);
               this.users = response.data.results.filter((obj) => {
                 let name = `${obj.name.first} ${obj.name.last}`;
                  this.commitUsers();
@@ -353,7 +352,8 @@ function (response) {
     },
 
     searchList: function () {
-      // handle stuff, call search API etc.
+      
+      this.searchList = this.toTitleCase(this.searchList);
       if (!this.awaitingSearch) {
         setTimeout(() => {
           this.users = this.users.filter(
@@ -441,12 +441,7 @@ function (response) {
   opacity: 1;
 }
 .content {
-  margin: 20px 10px 20px 10px;
-  top: 0px;
-  left: 0px;
- 
-
-  height: 100%;
+   height: 100%;
   background: #262a41 0% 0% no-repeat padding-box;
   opacity: 1;
 }
@@ -467,7 +462,7 @@ function (response) {
   padding: 10px 40px 10px 40px;
 }
 .dashboard {
-  margin: 120px 60px 120px 60px;
+  margin: 60px 60px 120px 40px;
 }
 
 .download-btn {

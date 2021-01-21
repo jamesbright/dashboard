@@ -9,7 +9,7 @@
       <v-icon @click="goBack" color="#30BBB5"> mdi-arrow-left </v-icon> results
 
         </v-list-item>
-        <v-row>
+        <v-row class="mx-md-n2">
           <v-col class="md-6 sm-6" >
         <v-list-item-avatar class="card-img" >
         <v-img :src="user.picture.large">

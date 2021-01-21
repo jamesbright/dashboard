@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
-        showUser: '',
-        showUsers: '',
+        showUser: false,
+        showUsers: true,
         disabled:false
     },
 
